@@ -1,0 +1,9 @@
+{
+  "entrypoints": {
+    "ssr": {
+      "tsx": [
+        "auto/ssr.tsx"
+      ]
+    }
+  }
+}

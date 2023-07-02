@@ -1,0 +1,24 @@
+{
+  "include": ["**/*", "styled-system"],
+  "compilerOptions": {
+    "lib": ["DOM"],
+    "jsx": "react",
+    "esModuleInterop": true,
+    "paths": {
+      "App/*": [
+        "../../app/*"
+      ],
+      "Config/*": [
+        "../../config/*"
+      ],
+      "Contracts/*": [
+        "../../contracts/*"
+      ],
+      "Database/*": [
+        "../../database/*"
+      ],
+      "styled-system": ["./styled-system/*"],
+      "styled-system/*": ["./styled-system/*"]
+    },
+  }
+}

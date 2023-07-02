@@ -1,0 +1,92 @@
+{
+  "name": "csr-adonis-inertia-react",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "prepare": "panda codegen",
+    "dev": "node ace serve --watch",
+    "build": "node ace build --production --ignore-ts-errors",
+    "start": "node server.js",
+    "lint": "eslint . --ext=.ts",
+    "format": "prettier --write ."
+  },
+  "eslintConfig": {
+    "extends": [
+      "plugin:adonis/typescriptApp",
+      "prettier"
+    ],
+    "plugins": [
+      "prettier"
+    ],
+    "rules": {
+      "prettier/prettier": [
+        "error"
+      ]
+    }
+  },
+  "eslintIgnore": [
+    "build"
+  ],
+  "prettier": {
+    "trailingComma": "es5",
+    "semi": false,
+    "singleQuote": true,
+    "useTabs": false,
+    "quoteProps": "consistent",
+    "bracketSpacing": true,
+    "arrowParens": "always",
+    "printWidth": 100
+  },
+  "devDependencies": {
+    "@adonisjs/assembler": "^5.9.5",
+    "@babel/core": "^7.20.12",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-react": "^7.18.6",
+    "@japa/preset-adonis": "^1.2.0",
+    "@japa/runner": "^2.2.2",
+    "@symfony/webpack-encore": "^4.1.1",
+    "@types/proxy-addr": "^2.0.0",
+    "@types/source-map-support": "^0.5.6",
+    "adonis-preset-ts": "^2.1.0",
+    "eslint": "^8.32.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-adonis": "^2.1.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "pino-pretty": "^9.1.1",
+    "prettier": "^2.8.3",
+    "ts-loader": "^9.4.2",
+    "typescript": "~4.6",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^4.10.0",
+    "youch": "^3.2.2",
+    "youch-terminal": "^2.1.5"
+  },
+  "dependencies": {
+    "@adonisjs/auth": "^8.2.3",
+    "@adonisjs/core": "^5.9.0",
+    "@adonisjs/lucid": "^18.4.0",
+    "@adonisjs/repl": "^3.1.11",
+    "@adonisjs/session": "^6.4.0",
+    "@adonisjs/shield": "^7.1.0",
+    "@adonisjs/view": "^6.2.0",
+    "@charlietango/use-focus-trap": "^1.4.0",
+    "@eidellev/inertia-adonisjs": "^7.4.0",
+    "@inertiajs/inertia": "^0.11.1",
+    "@inertiajs/inertia-react": "^0.8.1",
+    "@pandacss/dev": "^0.5.0",
+    "@types/react": "^18.0.27",
+    "@types/react-dom": "^18.0.10",
+    "@uidotdev/usehooks": "2.0.1-experimental.1",
+    "focus-trap-react": "^10.1.4",
+    "luxon": "^3.3.0",
+    "pg": "^8.11.1",
+    "postcss": "^8.4.24",
+    "postcss-loader": "^7.3.3",
+    "proxy-addr": "^2.0.7",
+    "react": "0.0.0-experimental-1fdacbefd-20230630",
+    "react-dom": "0.0.0-experimental-1fdacbefd-20230630",
+    "reflect-metadata": "^0.1.13",
+    "source-map-support": "^0.5.21",
+    "zod": "^3.21.4"
+  }
+}
