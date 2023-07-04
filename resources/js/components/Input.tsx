@@ -6,6 +6,7 @@ export type InputProps = {
   error?: string
   icon?: string | React.ReactNode
   label?: string
+  labelCss?: string
   containerCss?: string
   value?: string
 } & HTMLStyledProps<'input'>
@@ -16,7 +17,7 @@ export const Input: React.FC<InputProps> = (props) => {
   return (
     <styled.label className={props.containerCss} display="flex" flexDirection="column" gap=".25rem">
       {props.label && (
-        <styled.p textStyle="body.s" color="grey.default">
+        <styled.p className={props.labelCss} textStyle="body.s" color="grey.default">
           {props.label}
         </styled.p>
       )}

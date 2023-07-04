@@ -39,6 +39,7 @@ export const LinkItem: React.FC<LinkItemProps> = (props) => {
             justifyContent="center"
             textStyle="heading.s"
             color="grey.normal"
+            gap="0.25rem"
           >
             <styled.button p=".25rem" onPointerDown={(e) => controls.start(e)}>
               <styled.img pointerEvents="none" src="/grabber.svg" alt="" />
@@ -94,7 +95,7 @@ export const LinkForm: React.FC<LinkFormProps> = (props) => {
     <styled.form
       w="100%"
       h="100%"
-      p="2.5rem"
+      p={{ base: '1.5rem', md: '2.5rem' }}
       bg="white"
       display="flex"
       flexDirection="column"

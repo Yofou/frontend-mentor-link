@@ -11,7 +11,8 @@ export const Tab = styled('button', {
     textStyle: 'heading.s',
     color: 'grey.normal',
     cursor: 'pointer',
-    whiteSpace: 'nowrap',
+    w: '100%',
+    maxW: 'max-content',
     alignItems: 'center',
     _hover: {
       color: 'purple.default',

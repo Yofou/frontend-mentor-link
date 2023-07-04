@@ -1,9 +1,10 @@
 import React from 'react'
 import { HStack } from 'styled-system/jsx'
+import type { HTMLStyledProps } from 'styled-system/jsx'
 
-export const LogoSvg: React.FC = () => {
+export const LogoSvg: React.FC<HTMLStyledProps<'div'>> = (props) => {
   return (
-    <HStack gap="0.5rem">
+    <HStack {...props} gap="0.5rem">
       <svg
         width="41"
         height="40"

@@ -24,7 +24,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = (props) => {
     <styled.form
       w="100%"
       h="100%"
-      p="2.5rem"
+      p={{ base: '1.5rem', md: '2.5rem' }}
       bg="white"
       display="flex"
       onSubmit={(e) => e.preventDefault()}
@@ -45,19 +45,25 @@ export const ProfileForm: React.FC<ProfileFormProps> = (props) => {
         mb="1.5rem"
         display="flex"
         justifyContent="space-between"
-        alignItems="center"
+        alignItems={{ base: 'start', md: 'center' }}
+        flexDirection={{ base: 'column', md: 'row' }}
       >
-        <styled.p textStyle="body.m" color="grey.normal">
+        <styled.p textStyle="body.m" mb={{ base: '1rem', md: '0' }} color="grey.normal">
           Profile picture
         </styled.p>
 
-        <styled.div display="flex" gap="1.5rem" alignItems="center">
+        <styled.div
+          display="flex"
+          flexDirection={{ base: 'column', md: 'row' }}
+          gap="1.5rem"
+          alignItems={{ base: 'start', md: 'center' }}
+        >
           <ImageUpload
             name="avatar"
             defaultValue={profileString}
             dispatcher={props.onProfileChange}
           />
-          <styled.p maxW="200px" textStyle="body.s" color="grey.normal">
+          <styled.p maxW={{ base: 'auto', md: '200px' }} textStyle="body.s" color="grey.normal">
             Image must be below 1024x1024px. Use PNG or JPG format.
           </styled.p>
         </styled.div>
@@ -72,38 +78,44 @@ export const ProfileForm: React.FC<ProfileFormProps> = (props) => {
         gap="1.5rem"
       >
         <styled.div display="flex" justifyContent="space-between" alignItems="center">
-          <styled.p textStyle="body.m" color="grey.normal">
+          <styled.p hideBelow="sm" textStyle="body.m" color="grey.normal">
             First name*
           </styled.p>
 
           <Input
             value={props.first}
-            containerCss={css({ w: '100%', maxW: '420px' })}
+            label="First name*"
+            labelCss={css({ display: { base: 'block', md: 'none' } })}
+            containerCss={css({ w: '100%', maxW: { base: 'auto', md: '420px' } })}
             placeholder="e.g. John"
             onChange={props.onFirstChange}
           />
         </styled.div>
 
         <styled.div display="flex" justifyContent="space-between" alignItems="center">
-          <styled.p textStyle="body.m" color="grey.normal">
+          <styled.p hideBelow="sm" textStyle="body.m" color="grey.normal">
             Last name*
           </styled.p>
 
           <Input
             value={props.last}
-            containerCss={css({ w: '100%', maxW: '420px' })}
+            label="Last name*"
+            labelCss={css({ display: { base: 'block', md: 'none' } })}
+            containerCss={css({ w: '100%', maxW: { base: 'auto', md: '420px' } })}
             placeholder="e.g. Appleseed"
             onChange={props.onLastChange}
           />
         </styled.div>
 
         <styled.div display="flex" justifyContent="space-between" alignItems="center">
-          <styled.p textStyle="body.m" color="grey.normal">
+          <styled.p hideBelow="sm" textStyle="body.m" color="grey.normal">
             Email
           </styled.p>
 
           <Input
-            containerCss={css({ w: '100%', maxW: '420px' })}
+            label="Email"
+            labelCss={css({ display: { base: 'block', md: 'none' } })}
+            containerCss={css({ w: '100%', maxW: { base: 'auto', md: '420px' } })}
             placeholder="e.g. email@example.com"
             value={props.email}
             onChange={props.onEmailChange}

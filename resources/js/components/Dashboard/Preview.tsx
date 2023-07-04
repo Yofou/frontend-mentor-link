@@ -77,7 +77,7 @@ export const SidePreview: React.FC<SidePreviewProps> = (props) => {
       gridColumn="1 / 2"
       p="1.5rem"
       bg="white"
-      display="grid"
+      display={{ base: 'none', md: 'grid' }}
       justifyItems="center"
     >
       <svg

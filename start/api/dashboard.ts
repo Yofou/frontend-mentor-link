@@ -2,7 +2,6 @@ import Route from '@ioc:Adonis/Core/Route'
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
 import Link from 'App/Models/Link'
 import Database from '@ioc:Adonis/Lucid/Database'
-import { v4 } from 'uuid'
 
 const DashboardSchema = schema.create({
   first: schema.string([rules.alpha(), rules.maxLength(50)]),
@@ -42,6 +41,7 @@ const LinksSchema = schema.create({
           'Twitch',
           'Twitter',
           'LinkedIn',
+          'Youtube',
           'Dev.To',
           'Codewars',
           'Codepen',
@@ -55,6 +55,7 @@ const LinksSchema = schema.create({
           'frontend-mentor',
           'twitch',
           'twitter',
+          'youtube',
           'linkedin',
           'dev-to',
           'codewars',

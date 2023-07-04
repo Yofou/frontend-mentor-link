@@ -80,7 +80,7 @@ export default defineConfig({
         },
         m: {
           value: {
-            fontSize: '2rem',
+            fontSize: { base: '1.5rem', md: '2rem' },
             fontFamily: 'Instrument Sans',
             fontStyle: 'normal',
             fontWeight: '700',

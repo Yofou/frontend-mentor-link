@@ -1,17 +1,16 @@
 import { styled } from 'styled-system/jsx'
 import React, { ChangeEvent, useEffect } from 'react'
-import { LogoSvg } from '../components/svg/Logo'
-import { Tab } from '../components/Tab'
 import { Button } from '../components/Button'
 import { LinkForm, LinkItem, NoLinkItem } from '../components/Dashboard/LinkForm'
 import { useForm } from '@inertiajs/inertia-react'
 import { Provider } from '../constants/providers'
-import { LinkEdit } from '../components/svg/LinkEdit'
-import { ProfileEdit } from '../components/svg/ProfileEdit'
 import { ProfileForm } from '../components/Dashboard/ProfileForm'
 import { SidePreview } from '../components/Dashboard/Preview'
 import { Reorder } from 'framer-motion'
 import { v4 } from 'uuid'
+import { Nav } from '../components/Dashboard/Nav'
+import { useEphemeralToggle } from '../hooks/ephemeralToggle'
+import { Notify } from '../components/Dashboard/Notify'
 
 type LinkType = {
   id: string
@@ -44,16 +43,17 @@ export type PageProps = {
 }
 
 const Page: React.FC<PageProps> = (props) => {
-  const { data, setData, put, transform, errors, clearErrors } = useForm<PageFormType>({
-    links: [],
-    avatar: props.user.avatar ?? '',
-    profile: {
-      first: '',
-      last: '',
-      email: '',
-    },
-    isOnLink: true,
-  })
+  const { data, setData, put, transform, errors, clearErrors, wasSuccessful } =
+    useForm<PageFormType>({
+      links: [],
+      avatar: props.user.avatar ?? '',
+      profile: {
+        first: '',
+        last: '',
+        email: '',
+      },
+      isOnLink: true,
+    })
 
   useEffect(() => {
     setData(
@@ -69,6 +69,14 @@ const Page: React.FC<PageProps> = (props) => {
       })
     )
   }, [])
+
+  const [isSuccessful, setIsSuccessful] = useEphemeralToggle()
+
+  useEffect(() => {
+    if (wasSuccessful) {
+      setIsSuccessful(true)
+    }
+  }, [wasSuccessful])
 
   const onAddNewLink = () => {
     setData('links', [
@@ -132,6 +140,9 @@ const Page: React.FC<PageProps> = (props) => {
     setData('links', value)
   }
 
+  const setIsOnLink: React.Dispatch<React.SetStateAction<boolean>> = (val: boolean) =>
+    setData('isOnLink', val)
+
   const onSubmit = () => {
     if (data.isOnLink) {
       transform(
@@ -141,7 +152,9 @@ const Page: React.FC<PageProps> = (props) => {
           } as any)
       )
 
-      put('/api/dashboard/links')
+      put('/api/dashboard/links', {
+        preserveScroll: true,
+      })
     } else {
       transform(($data) => {
         const res = {
@@ -158,6 +171,7 @@ const Page: React.FC<PageProps> = (props) => {
       })
 
       put('/api/dashboard/profile', {
+        preserveScroll: true,
         forceFormData: true,
       })
     }
@@ -168,33 +182,13 @@ const Page: React.FC<PageProps> = (props) => {
       display="grid"
       w="100vw"
       minH="100vh"
-      gridTemplateColumns="1fr 2fr"
+      gridTemplateColumns={{ base: '1fr', md: '1fr 2fr' }}
       gridTemplateRows="max-content 1fr max-content"
-      gap="1.5rem"
+      gap={{ base: '1rem', md: '1.5rem' }}
       p="1.5rem"
       bg="grey.light"
     >
-      <styled.nav
-        p="1.5rem"
-        rounded=".75rem"
-        display="flex"
-        justifyContent="space-between"
-        bg="white"
-        gridColumn="1 / -1"
-      >
-        <LogoSvg />
-
-        <styled.div display="flex" gap="1rem">
-          <Tab active={data.isOnLink} onClick={() => setData('isOnLink', true)}>
-            <LinkEdit /> Links
-          </Tab>
-          <Tab active={!data.isOnLink} onClick={() => setData('isOnLink', false)}>
-            <ProfileEdit /> Profile Details
-          </Tab>
-        </styled.div>
-
-        <Button type="secondary">Preview</Button>
-      </styled.nav>
+      <Nav gridColumn="1 / -1" isOnLink={data.isOnLink} dispatcher={setIsOnLink} />
 
       <SidePreview avatar={data.avatar} links={data.links} profile={data.profile} />
 
@@ -232,17 +226,24 @@ const Page: React.FC<PageProps> = (props) => {
         </Reorder.Group>
       )}
 
+      {isSuccessful && (
+        <Notify pos="fixed" bottom="2.5rem" left="50%" transform="translateX(-50%)">
+          <img src="/saved.svg" alt="" />
+          Your changes have been successfully saved!
+        </Notify>
+      )}
+
       <styled.div
         gridRow="3 / 4"
         borderTop="1px"
         borderStyle="solid"
         borderColor="borders"
-        gridColumn="2 / 3"
-        p="2.5rem"
+        gridColumn={{ base: '1 / -1', md: '2 / 3' }}
+        p={{ base: '1rem', md: '2.5rem' }}
         display="flex"
         justifyContent="end"
       >
-        <Button form="profile" onClick={onSubmit} type="primary">
+        <Button w={{ base: '100%', md: 'auto' }} form="profile" onClick={onSubmit} type="primary">
           Save
         </Button>
       </styled.div>
