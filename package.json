@@ -76,17 +76,20 @@
     "@pandacss/dev": "^0.5.0",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
-    "@uidotdev/usehooks": "2.0.1-experimental.1",
+    "@types/uuid": "^9.0.2",
     "focus-trap-react": "^10.1.4",
+    "framer-motion": "^10.12.18",
     "luxon": "^3.3.0",
     "pg": "^8.11.1",
     "postcss": "^8.4.24",
     "postcss-loader": "^7.3.3",
     "proxy-addr": "^2.0.7",
-    "react": "0.0.0-experimental-1fdacbefd-20230630",
-    "react-dom": "0.0.0-experimental-1fdacbefd-20230630",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-use": "^17.4.0",
     "reflect-metadata": "^0.1.13",
     "source-map-support": "^0.5.21",
+    "uuid": "^9.0.0",
     "zod": "^3.21.4"
   }
 }

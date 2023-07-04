@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, beforeSave } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, beforeSave, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import Hash from '@ioc:Adonis/Core/Hash'
+import Link from './Link'
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -16,10 +17,18 @@ export default class User extends BaseModel {
   public rememberMeToken: string | null
 
   @column()
+  public avatar: string | null
+
+  @column()
   public first: string | null
 
   @column()
   public last: string | null
+
+  @hasMany(() => Link, {
+    foreignKey: 'userId',
+  })
+  public links: HasMany<typeof Link>
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

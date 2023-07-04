@@ -1,4 +1,4 @@
-import { styled, Grid } from 'styled-system/jsx'
+import { styled } from 'styled-system/jsx'
 import React, { ChangeEvent, useEffect } from 'react'
 import { LogoSvg } from '../components/svg/Logo'
 import { Tab } from '../components/Tab'
@@ -10,16 +10,21 @@ import { LinkEdit } from '../components/svg/LinkEdit'
 import { ProfileEdit } from '../components/svg/ProfileEdit'
 import { ProfileForm } from '../components/Dashboard/ProfileForm'
 import { SidePreview } from '../components/Dashboard/Preview'
+import { Reorder } from 'framer-motion'
+import { v4 } from 'uuid'
+
+type LinkType = {
+  id: string
+  provider: {
+    valueId: string
+    value: string
+  }
+  link: string
+}
 
 export type PageFormType = {
-  links: {
-    provider: {
-      valueId: string
-      value: string
-    }
-    link: string
-  }[]
-  avatar: string
+  links: LinkType[]
+  avatar: string | File
   profile: {
     first: string
     last: string
@@ -33,13 +38,15 @@ export type PageProps = {
     email: string
     first: string
     last: string
+    avatar?: string | null
   }
+  links: LinkType[]
 }
 
 const Page: React.FC<PageProps> = (props) => {
-  const { data, setData } = useForm<PageFormType>({
+  const { data, setData, put, transform, errors, clearErrors } = useForm<PageFormType>({
     links: [],
-    avatar: '',
+    avatar: props.user.avatar ?? '',
     profile: {
       first: '',
       last: '',
@@ -49,17 +56,25 @@ const Page: React.FC<PageProps> = (props) => {
   })
 
   useEffect(() => {
-    setData('profile', {
-      email: props.user.email,
-      first: props.user.first,
-      last: props.user.last,
-    })
+    setData(
+      structuredClone({
+        links: props.links,
+        avatar: props.user.avatar,
+        profile: {
+          email: props.user.email,
+          first: props.user.first,
+          last: props.user.last,
+        },
+        isOnLink: true,
+      })
+    )
   }, [])
 
   const onAddNewLink = () => {
     setData('links', [
       ...data.links,
       {
+        id: v4(),
         link: '',
         provider: { valueId: '', value: '' },
       },
@@ -112,6 +127,42 @@ const Page: React.FC<PageProps> = (props) => {
     setData('profile', clone)
   }
 
+  const onReorder = (value: LinkType[]) => {
+    clearErrors()
+    setData('links', value)
+  }
+
+  const onSubmit = () => {
+    if (data.isOnLink) {
+      transform(
+        ($data) =>
+          ({
+            links: $data.links,
+          } as any)
+      )
+
+      put('/api/dashboard/links')
+    } else {
+      transform(($data) => {
+        const res = {
+          first: $data.profile.first,
+          last: $data.profile.last,
+          email: $data.profile.email,
+        } as any
+
+        if ($data.avatar instanceof File) {
+          res.avatar = $data.avatar
+        }
+
+        return res
+      })
+
+      put('/api/dashboard/profile', {
+        forceFormData: true,
+      })
+    }
+  }
+
   return (
     <styled.main
       display="grid"
@@ -161,21 +212,24 @@ const Page: React.FC<PageProps> = (props) => {
       )}
 
       {data.isOnLink && (
-        <LinkForm onAddLink={onAddNewLink}>
-          {data.links.length === 0 && <NoLinkItem />}
-          {data.links.length > 0 &&
-            data.links.map((item, index) => (
-              <LinkItem
-                key={`${item.provider.valueId}:${index}`}
-                platform={item.provider}
-                link={item.link}
-                onLinkChange={onLinkChange(index)}
-                onPlatformChange={onPlatformChange(index)}
-                onRemove={onLinkRemove(index)}
-                index={index}
-              />
-            ))}
-        </LinkForm>
+        <Reorder.Group axis="y" values={data.links} onReorder={onReorder}>
+          <LinkForm onAddLink={onAddNewLink}>
+            {data.links.length === 0 && <NoLinkItem />}
+            {data.links.map((item, index) => {
+              return (
+                <LinkItem
+                  key={item.id}
+                  item={item}
+                  errors={errors[`links.${index}.link`] ?? []}
+                  onLinkChange={onLinkChange(index)}
+                  onPlatformChange={onPlatformChange(index)}
+                  onRemove={onLinkRemove(index)}
+                  index={index}
+                />
+              )
+            })}
+          </LinkForm>
+        </Reorder.Group>
       )}
 
       <styled.div
@@ -188,7 +242,9 @@ const Page: React.FC<PageProps> = (props) => {
         display="flex"
         justifyContent="end"
       >
-        <Button type="primary">Save</Button>
+        <Button form="profile" onClick={onSubmit} type="primary">
+          Save
+        </Button>
       </styled.div>
     </styled.main>
   )

@@ -1,10 +1,76 @@
 import React from 'react'
+import { css } from 'styled-system/css'
 import { styled } from 'styled-system/jsx'
+import { useGetProfileString } from '../../hooks/getProfileString'
 import { PageFormType } from '../../Pages/Dashboard'
 
 export type SidePreviewProps = Omit<PageFormType, 'isOnLink'>
 
+export const SidePreviewItem = styled('a', {
+  base: {
+    width: '100%',
+    p: '1rem',
+    rounded: '.5rem',
+    display: 'flex',
+    gap: '.5rem',
+    color: 'white',
+    textStyle: 'body.m',
+  },
+  variants: {
+    type: {
+      'github': {
+        bg: '#1A1A1A',
+      },
+      'frontend-mentor': {
+        bg: 'white',
+        color: 'grey.default',
+        borderWidth: '1px',
+        borderStyle: 'solid',
+        borderColor: 'borders',
+      },
+      'twitter': {
+        bg: '#43B7E9',
+      },
+      'linkedin': {
+        bg: '#2D68FF',
+      },
+      'youtube': {
+        bg: '#EE3939',
+      },
+      'facebook': {
+        bg: '#2442AC',
+      },
+      'twitch': {
+        bg: '#EE3FC8',
+      },
+      'dev-to': {
+        bg: 'grey.default',
+      },
+      'codewars': {
+        bg: '#8A1A50',
+      },
+      'codepen': {
+        bg: '#1e1f26',
+      },
+      'freecodecamp': {
+        bg: '#302267',
+      },
+      'gitlab': {
+        bg: '#EB4925',
+      },
+      'hashnode': {
+        bg: '#0330D1',
+      },
+      'stackoverflow': {
+        bg: '#EC7100',
+      },
+    },
+  },
+})
+
 export const SidePreview: React.FC<SidePreviewProps> = (props) => {
+  const [profileString] = useGetProfileString(props.avatar)
+
   return (
     <styled.section
       gridRow="2 / -1"
@@ -12,9 +78,15 @@ export const SidePreview: React.FC<SidePreviewProps> = (props) => {
       p="1.5rem"
       bg="white"
       display="grid"
-      placeContent="center"
+      justifyItems="center"
     >
       <svg
+        className={css({
+          mt: '4.84rem',
+          pos: 'sticky',
+          top: '2rem',
+          left: '0',
+        })}
         width="308"
         height="632"
         viewBox="0 0 308 632"
@@ -34,7 +106,7 @@ export const SidePreview: React.FC<SidePreviewProps> = (props) => {
         {props.avatar && (
           <defs>
             <pattern id="avatar" x="0" y="0" height="1" width="1">
-              <image x="0" y="0" height="100" width="100" xlinkHref={props.avatar}></image>
+              <image x="0" y="0" height="100" width="100" xlinkHref={profileString}></image>
             </pattern>
           </defs>
         )}
@@ -65,11 +137,34 @@ export const SidePreview: React.FC<SidePreviewProps> = (props) => {
           </foreignObject>
         )}
 
-        <rect x="35" y="278" width="237" height="44" rx="8" fill="#EEEEEE" />
-        <rect x="35" y="342" width="237" height="44" rx="8" fill="#EEEEEE" />
-        <rect x="35" y="406" width="237" height="44" rx="8" fill="#EEEEEE" />
-        <rect x="35" y="470" width="237" height="44" rx="8" fill="#EEEEEE" />
-        <rect x="35" y="534" width="237" height="44" rx="8" fill="#EEEEEE" />
+        <foreignObject width="100%" height="300" x="0" y="278" rx="4">
+          <styled.div
+            display="flex"
+            px="2.16rem"
+            flexDirection="column"
+            gap="1.25rem"
+            overflowY="scroll"
+            maxH="300px"
+          >
+            {props.links.length > 0 &&
+              props.links.map((item, index) => {
+                if (!item.provider.valueId)
+                  return <React.Fragment key={`${item.provider.valueId}:${index}`}></React.Fragment>
+                return (
+                  <SidePreviewItem
+                    key={`${item.provider.valueId}:${index}`}
+                    type={item.provider.valueId as any}
+                    href={item.link.length > 0 ? item.link : null}
+                    target="_blank"
+                  >
+                    <img src={`/links/${item.provider.valueId}.svg`} alt="" />
+                    <styled.p w="100%">{item.provider.value}</styled.p>
+                    <img src={`/right-arrow.svg`} alt="" />
+                  </SidePreviewItem>
+                )
+              })}
+          </styled.div>
+        </foreignObject>
       </svg>
     </styled.section>
   )

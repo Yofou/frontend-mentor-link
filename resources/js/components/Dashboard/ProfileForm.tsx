@@ -1,11 +1,12 @@
 import React from 'react'
 import { css } from 'styled-system/css'
 import { styled } from 'styled-system/jsx'
+import { useGetProfileString } from '../../hooks/getProfileString'
 import { ImageUpload } from '../ImageUpload'
 import { Input } from '../Input'
 
 type ProfileFormProps = {
-  profile?: string
+  profile?: string | File
   first?: string
   last?: string
   email?: string
@@ -17,8 +18,19 @@ type ProfileFormProps = {
 }
 
 export const ProfileForm: React.FC<ProfileFormProps> = (props) => {
+  const [profileString] = useGetProfileString(props.profile)
+
   return (
-    <styled.div w="100%" h="100%" p="2.5rem" bg="white" display="flex" flexDirection="column">
+    <styled.form
+      w="100%"
+      h="100%"
+      p="2.5rem"
+      bg="white"
+      display="flex"
+      onSubmit={(e) => e.preventDefault()}
+      flexDirection="column"
+      id="profile"
+    >
       <styled.h2 mb=".5rem" textStyle="heading.m" color="grey.default">
         Profile Details
       </styled.h2>
@@ -40,7 +52,11 @@ export const ProfileForm: React.FC<ProfileFormProps> = (props) => {
         </styled.p>
 
         <styled.div display="flex" gap="1.5rem" alignItems="center">
-          <ImageUpload defaultValue={props.profile} dispatcher={props.onProfileChange} />
+          <ImageUpload
+            name="avatar"
+            defaultValue={profileString}
+            dispatcher={props.onProfileChange}
+          />
           <styled.p maxW="200px" textStyle="body.s" color="grey.normal">
             Image must be below 1024x1024px. Use PNG or JPG format.
           </styled.p>
@@ -94,6 +110,6 @@ export const ProfileForm: React.FC<ProfileFormProps> = (props) => {
           />
         </styled.div>
       </styled.div>
-    </styled.div>
+    </styled.form>
   )
 }

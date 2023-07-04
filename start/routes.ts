@@ -20,6 +20,7 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 import './api/auth'
+import './api/dashboard'
 
 Route.get('/', async ({ response }) => {
   return response.redirect('/auth/login')
@@ -44,16 +45,23 @@ Route.get('/auth/register', async ({ inertia, auth, response }) => {
 })
 
 Route.get('/dashboard', async ({ inertia, auth }) => {
-  console.log(auth.user)
+  await auth.user?.load('links')
   return inertia.render('Dashboard', {
     user: {
       email: auth.user?.email ?? '',
       first: auth.user?.first ?? '',
       last: auth.user?.last ?? '',
+      avatar: auth.user?.avatar,
     },
+    links: auth.user?.links.map((item) => {
+      return {
+        id: item.id,
+        link: item.url,
+        provider: {
+          value: item.platform,
+          valueId: item.platformId,
+        },
+      }
+    }),
   })
 }).middleware('auth')
-
-Route.get('/playground', async ({ inertia }) => {
-  return inertia.render('Playground')
-})

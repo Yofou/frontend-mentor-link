@@ -1,8 +1,10 @@
-import React, { createContext, useContext, useEffect, useState } from 'react'
+import React, { createContext, useContext, useEffect, useRef, useState } from 'react'
 import { styled } from 'styled-system/jsx'
-import { InputContainer } from './InputContaienr'
+import { InputContainerStyles } from './InputContaienr'
 import useFocusTrap from '@charlietango/use-focus-trap'
-import { useClickAway, useKeyPress } from '@uidotdev/usehooks'
+import { useClickAway, useKeyPress } from 'react-use'
+
+const InputContainer = styled('div', InputContainerStyles)
 
 const SelectedProvider = createContext<null | [any, React.Dispatch<React.SetStateAction<any>>]>(
   null
@@ -15,6 +17,7 @@ export type DropdownProps = React.PropsWithChildren<{
     valueId: string
     value: string
   }
+  label?: string
   dispatcher?: React.Dispatch<React.SetStateAction<{ valueId: string; value: string }>>
   headCss?: string
 }>
@@ -24,13 +27,16 @@ export const Dropdown: React.FC<DropdownProps> = (props) => {
   const [selected, setSelected] = useState(props?.defaultSelected)
 
   const onToggleChange = () => setIsOpen(!isOpen)
+  const ref = useRef<HTMLDivElement>()
   const focusTrapRef = useFocusTrap()
-  const clickAwayRef = useClickAway(() => {
+  const hasEscapedPress = useKeyPress('Escape')
+  useClickAway(ref, () => {
     setIsOpen(false)
   })
-  useKeyPress('Escape', () => {
-    setIsOpen(false)
-  })
+
+  useEffect(() => {
+    if (hasEscapedPress) setIsOpen(false)
+  }, [hasEscapedPress])
 
   useEffect(() => {
     props?.dispatcher?.(selected)
@@ -39,20 +45,27 @@ export const Dropdown: React.FC<DropdownProps> = (props) => {
   return (
     <OpenProvider.Provider value={setIsOpen}>
       <styled.div className={props.headCss} position="relative" width="100%">
-        <InputContainer px="1rem" active={isOpen} width="100%">
-          {selected.valueId && <styled.img src={`/platform/${selected.valueId}.svg`} alt="" />}
-          <styled.button
-            w="100%"
-            h="100%"
-            textAlign="left"
-            outline="transparent"
-            onClick={onToggleChange}
-          >
-            {selected.value}
-          </styled.button>
+        <styled.label display="flex" flexDirection="column" gap="0.5rem">
+          {props.label && (
+            <styled.p textStyle="body.s" color="grey.default">
+              {props.label}
+            </styled.p>
+          )}
+          <InputContainer px="1rem" active={isOpen} width="100%">
+            {selected.valueId && <styled.img src={`/platform/${selected.valueId}.svg`} alt="" />}
+            <styled.button
+              w="100%"
+              h="100%"
+              textAlign="left"
+              outline="transparent"
+              onClick={onToggleChange}
+            >
+              {selected.value}
+            </styled.button>
 
-          <styled.img src="/chevron.svg" alt="" />
-        </InputContainer>
+            <styled.img src="/chevron.svg" alt="" />
+          </InputContainer>
+        </styled.label>
 
         {isOpen && (
           <SelectedProvider.Provider value={[selected, setSelected]}>
@@ -60,7 +73,7 @@ export const Dropdown: React.FC<DropdownProps> = (props) => {
               zIndex="2"
               ref={(elm) => {
                 focusTrapRef(elm)
-                clickAwayRef.current = elm
+                ref.current = elm
               }}
               position="absolute"
               bg="white"
@@ -119,7 +132,7 @@ export const DropdownItem: React.FC<DropdownItemProps> = (props) => {
   const [selected, setSelected] = providerItem
   const isSelected = selected?.valueId === props.valueId
   const onClick = () => {
-    setSelected(props)
+    setSelected({ value: props.value, valueId: props.valueId })
     if (setIsOpen) setIsOpen(false)
   }
 

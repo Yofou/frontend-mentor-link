@@ -5,55 +5,77 @@ import { Dropdown, DropdownDivider, DropdownItem } from '../Dropdown'
 import { Provider, ProvidersList } from '../../constants/providers'
 import { Input } from '../Input'
 import { LinkEdit } from '../svg/LinkEdit'
+import { Reorder, useDragControls } from 'framer-motion'
 
 export type LinkItemProps = {
   index: number
-  platform?: Provider
-  link?: string
+  item?: {
+    provider: Provider
+    link: string
+  }
+  errors?: string[]
   onPlatformChange?: (value: any) => void
   onLinkChange?: (value: any) => void
   onRemove?: () => void
 }
 
 export const LinkItem: React.FC<LinkItemProps> = (props) => {
+  const controls = useDragControls()
+  const errorMessage = props.errors?.[0] ?? ''
+
   return (
-    <styled.div
-      w="100%"
-      p="1.25rem"
-      display="flex"
-      flexDirection="column"
-      gap="0.75rem"
-      bg="grey.light"
-    >
-      <styled.div display="flex" justifyContent="space-between">
-        <styled.h3 textStyle="heading.s" color="grey.normal">
-          Link #{props.index + 1}
-        </styled.h3>
+    <Reorder.Item dragListener={false} dragControls={controls} value={props.item}>
+      <styled.div
+        w="100%"
+        p="1.25rem"
+        display="flex"
+        flexDirection="column"
+        gap="0.75rem"
+        bg="grey.light"
+      >
+        <styled.div display="flex" justifyContent="space-between">
+          <styled.h3
+            display="flex"
+            justifyContent="center"
+            textStyle="heading.s"
+            color="grey.normal"
+          >
+            <styled.button p=".25rem" onPointerDown={(e) => controls.start(e)}>
+              <styled.img pointerEvents="none" src="/grabber.svg" alt="" />
+            </styled.button>{' '}
+            Link #{props.index + 1}
+          </styled.h3>
 
-        <styled.button color="grey.normal" textStyle="body.m" onClick={props?.onRemove}>
-          Removed
-        </styled.button>
+          <styled.button color="grey.normal" textStyle="body.m" onClick={props?.onRemove}>
+            Removed
+          </styled.button>
+        </styled.div>
+
+        <Dropdown
+          label="Platform"
+          defaultSelected={props.item.provider}
+          dispatcher={props.onPlatformChange}
+        >
+          {ProvidersList.map((item, index) => (
+            <React.Fragment key={item.valueId}>
+              <DropdownItem value={item.value} valueId={item.valueId}>
+                <img src={`/platform/${item.valueId}.svg`} alt="" /> {item.value}
+              </DropdownItem>
+              {index + 1 !== ProvidersList.length && <DropdownDivider />}
+            </React.Fragment>
+          ))}
+        </Dropdown>
+
+        <Input
+          placeholder="e.g. https://www.github.com/johnappleseed"
+          label="Link"
+          error={errorMessage}
+          icon={<LinkEdit />}
+          value={props.item.link}
+          onChange={props.onLinkChange}
+        />
       </styled.div>
-
-      <Dropdown defaultSelected={props.platform} dispatcher={props.onPlatformChange}>
-        {ProvidersList.map((item, index) => (
-          <React.Fragment key={item.valueId}>
-            <DropdownItem value={item.value} valueId={item.valueId}>
-              <img src={`/platform/${item.valueId}.svg`} alt="" /> {item.value}
-            </DropdownItem>
-            {index + 1 !== ProvidersList.length && <DropdownDivider />}
-          </React.Fragment>
-        ))}
-      </Dropdown>
-
-      <Input
-        placeholder="e.g. https://www.github.com/johnappleseed"
-        label="Link"
-        icon={<LinkEdit />}
-        value={props.link}
-        onChange={props.onLinkChange}
-      />
-    </styled.div>
+    </Reorder.Item>
   )
 }
 

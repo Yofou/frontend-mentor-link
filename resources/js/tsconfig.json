@@ -3,6 +3,7 @@
   "compilerOptions": {
     "lib": ["DOM"],
     "jsx": "react",
+    "sourceMap": true,
     "esModuleInterop": true,
     "paths": {
       "App/*": [

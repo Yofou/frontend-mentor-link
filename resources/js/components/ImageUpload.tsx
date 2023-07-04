@@ -1,37 +1,33 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { css } from 'styled-system/css'
 import { styled } from 'styled-system/jsx'
 import { ImageSvg } from './svg/ImageSvg'
 
 export type ImagUploadProps = {
   defaultValue?: string
-  dispatcher?: React.Dispatch<React.SetStateAction<string>>
+  dispatcher?: React.Dispatch<React.SetStateAction<File>>
+  name?: string
 }
 
 export const ImageUpload: React.FC<ImagUploadProps> = (props) => {
-  const inputRef = useRef<HTMLInputElement>()
-  const reader = useMemo(() => {
-    const tempReader = new FileReader()
-
-    if (inputRef.current) {
-      tempReader.readAsDataURL(inputRef.current.files?.[0])
-    }
-
-    return tempReader
-  }, [inputRef])
-
-  const [preview, setPreview] = useState(props?.defaultValue ?? reader?.result)
+  const [preview, setPreview] = useState<string>()
 
   useEffect(() => {
-    reader.onloadend = () => {
-      setPreview(reader.result)
-      props?.dispatcher?.(reader.result.toString())
-    }
-  }, [reader, inputRef])
+    setPreview(props.defaultValue)
+  }, [props])
 
   const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault()
-    reader.readAsDataURL(event.target.files?.[0])
+    const file = event.target.files?.[0]
+    props?.dispatcher?.(file)
+
+    // Encode the file using the FileReader API
+    const reader = new FileReader()
+    reader.onloadend = () => {
+      const result = reader.result as string
+      setPreview(result)
+    }
+    reader.readAsDataURL(file)
   }
 
   return (
@@ -51,7 +47,7 @@ export const ImageUpload: React.FC<ImagUploadProps> = (props) => {
       <h2>+ Upload Image</h2>
 
       <styled.input
-        ref={inputRef}
+        name={props.name}
         onChange={onFileChange}
         type="file"
         accept="image/png, image/jpeg"
