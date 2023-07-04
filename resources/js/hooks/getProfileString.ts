@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
 
-export const useGetProfileString = (preview: string | File) => {
-  const [value, setValue] = useState<string>()
+export const useGetProfileString = (preview: string | File | null) => {
+  const [value, setValue] = useState<string | null>(null)
 
   useEffect(() => {
+    if (!preview) return
+
     if (typeof preview === 'string') {
       setValue(preview)
     } else {
