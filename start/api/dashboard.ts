@@ -81,7 +81,7 @@ const LinksSchema = schema.create({
           'facebook',
         ]),
       }),
-      link: schema.string([rules.url()]),
+      link: schema.string([rules.url(), rules.maxLength(255)]),
     })
   ),
 })
@@ -92,6 +92,7 @@ Route.put('/api/dashboard/links', async ({ auth, request, response }) => {
     messages: {
       required: 'Field is required',
       url: 'Must be a valid url',
+      maxLength: 'Must be less than 255 chars',
     },
   })
 
