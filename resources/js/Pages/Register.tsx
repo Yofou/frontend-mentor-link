@@ -5,6 +5,7 @@ import React, { ChangeEvent } from 'react'
 import { Input } from '../components/Input'
 import { Button } from '../components/Button'
 import { Link, useForm, usePage } from '@inertiajs/inertia-react'
+import { Head } from '@inertiajs/inertia-react'
 
 const Page: React.FC = () => {
   const props = usePage().props
@@ -30,6 +31,7 @@ const Page: React.FC = () => {
 
   return (
     <AuthLayout onSubmit={onSubmit}>
+      <Head title="Dev-link | Register" />
       <styled.h2 textStyle="heading.m" color="black" mb="0.5rem">
         Create account
       </styled.h2>

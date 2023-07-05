@@ -32,7 +32,8 @@
     "@adonisjs/shield",
     "@eidellev/inertia-adonisjs",
     "@adonisjs/lucid",
-    "@adonisjs/auth"
+    "@adonisjs/auth",
+    "adonis-drive-r2"
   ],
   "metaFiles": [
     {

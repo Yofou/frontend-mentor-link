@@ -21,7 +21,7 @@ export default Env.rules({
   APP_NAME: Env.schema.string(),
   CACHE_VIEWS: Env.schema.boolean(),
   SESSION_DRIVER: Env.schema.string(),
-  DRIVE_DISK: Env.schema.enum(['local'] as const),
+  DRIVE_DISK: Env.schema.enum(['local', 'r2'] as const),
   NODE_ENV: Env.schema.enum(['development', 'production', 'test'] as const),
 
   DB_CONNECTION: Env.schema.string(),
@@ -30,4 +30,10 @@ export default Env.rules({
   PG_USER: Env.schema.string(),
   PG_PASSWORD: Env.schema.string.optional(),
   PG_DB_NAME: Env.schema.string(),
+
+  R2_ACCESS_KEY_ID: Env.schema.string(),
+  R2_SECRET_ACCESS_KEY: Env.schema.string(),
+  R2_BUCKET: Env.schema.string(),
+  R2_ACCOUNT_ID: Env.schema.string(),
+  R2_PUBLIC_URL: Env.schema.string.optional(),
 })

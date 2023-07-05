@@ -4,12 +4,14 @@ import { styled } from 'styled-system/jsx'
 import { useGetProfileString } from '../../hooks/getProfileString'
 import { ImageUpload } from '../ImageUpload'
 import { Input } from '../Input'
+import { Head } from '@inertiajs/inertia-react'
 
 type ProfileFormProps = {
   profile?: string | File
   first?: string
   last?: string
   email?: string
+  errors?: Record<'first' | 'last', string>
 
   onProfileChange?: (value: any) => void
   onFirstChange?: (value: any) => void
@@ -31,6 +33,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = (props) => {
       flexDirection="column"
       id="profile"
     >
+      <Head title="Dev-link | Edit Profile" />
       <styled.h2 mb=".5rem" textStyle="heading.m" color="grey.default">
         Profile Details
       </styled.h2>
@@ -84,6 +87,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = (props) => {
 
           <Input
             value={props.first}
+            error={props.errors.first}
             label="First name*"
             labelCss={css({ display: { base: 'block', md: 'none' } })}
             containerCss={css({ w: '100%', maxW: { base: 'auto', md: '420px' } })}
@@ -99,6 +103,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = (props) => {
 
           <Input
             value={props.last}
+            error={props.errors.last}
             label="Last name*"
             labelCss={css({ display: { base: 'block', md: 'none' } })}
             containerCss={css({ w: '100%', maxW: { base: 'auto', md: '420px' } })}
@@ -115,9 +120,10 @@ export const ProfileForm: React.FC<ProfileFormProps> = (props) => {
           <Input
             label="Email"
             labelCss={css({ display: { base: 'block', md: 'none' } })}
-            containerCss={css({ w: '100%', maxW: { base: 'auto', md: '420px' } })}
+            containerCss={css({ w: '100%', maxW: { base: 'auto', md: '420px' }, opacity: '0.5' })}
             placeholder="e.g. email@example.com"
             value={props.email}
+            disabled
             onChange={props.onEmailChange}
           />
         </styled.div>

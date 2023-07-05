@@ -106,7 +106,14 @@ export const SidePreview: React.FC<SidePreviewProps> = (props) => {
         {props.avatar && (
           <defs>
             <pattern id="avatar" x="0" y="0" height="1" width="1">
-              <image x="0" y="0" height="100" width="100" xlinkHref={profileString}></image>
+              <image
+                preserveAspectRatio="xMidYMid slice"
+                x="0"
+                y="0"
+                height="100"
+                width="100"
+                xlinkHref={profileString}
+              ></image>
             </pattern>
           </defs>
         )}
@@ -114,6 +121,8 @@ export const SidePreview: React.FC<SidePreviewProps> = (props) => {
           cx="153.5"
           cy="112"
           r="48"
+          className={props.avatar ? css({ stroke: 'purple.default' }) : ''}
+          strokeWidth="4"
           fill={props.avatar ? 'url(#avatar)' : '#EEEEEE'}
         ></circle>
 
@@ -147,12 +156,11 @@ export const SidePreview: React.FC<SidePreviewProps> = (props) => {
             maxH="300px"
           >
             {props.links.length > 0 &&
-              props.links.map((item, index) => {
-                if (!item.provider.valueId)
-                  return <React.Fragment key={`${item.provider.valueId}:${index}`}></React.Fragment>
+              props.links.map((item) => {
+                if (!item.provider.valueId) return <React.Fragment key={item.id}></React.Fragment>
                 return (
                   <SidePreviewItem
-                    key={`${item.provider.valueId}:${index}`}
+                    key={item.id}
                     type={item.provider.valueId as any}
                     href={item.link.length > 0 ? item.link : null}
                     target="_blank"
@@ -163,6 +171,18 @@ export const SidePreview: React.FC<SidePreviewProps> = (props) => {
                   </SidePreviewItem>
                 )
               })}
+
+            {props.links.length < 5 &&
+              Array.from({ length: 4 - props.links.length }).map((_, index) => (
+                <styled.div
+                  minH="56px"
+                  w="100%"
+                  boxSizing="content-box"
+                  bg="#EEEEEE"
+                  rounded=".5rem"
+                  key={index}
+                ></styled.div>
+              ))}
           </styled.div>
         </foreignObject>
       </svg>

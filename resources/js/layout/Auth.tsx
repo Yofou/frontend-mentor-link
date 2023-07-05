@@ -18,10 +18,11 @@ export const AuthLayout: React.FC<AuthLayoutProps> = (props) => {
         w="100%"
         h="100%"
         display="flex"
-        alignItems="center"
-        justifyContent="center"
+        alignItems={{ base: 'start', sm: 'center' }}
+        justifyContent={{ base: 'start', sm: 'center' }}
         flexDirection="column"
         gap="3.66rem"
+        p="2rem"
       >
         <LogoSvg />
         <styled.form
@@ -29,8 +30,8 @@ export const AuthLayout: React.FC<AuthLayoutProps> = (props) => {
           w="100%"
           maxW="476px"
           rounded="12px"
-          p="2.5rem"
-          bg="white"
+          p={{ base: '0', sm: '2.5rem' }}
+          bg={{ base: 'grey.light', sm: 'white' }}
         >
           {props.children}
         </styled.form>

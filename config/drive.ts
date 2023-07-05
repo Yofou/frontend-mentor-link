@@ -145,5 +145,14 @@ export default driveConfig({
       */
     //   usingUniformAcl: false,
     // },
+    r2: {
+      driver: 'r2',
+      visibility: 'private',
+      key: Env.get('R2_ACCESS_KEY_ID'),
+      secret: Env.get('R2_SECRET_ACCESS_KEY'),
+      bucket: Env.get('R2_BUCKET'),
+      accountId: Env.get('R2_ACCOUNT_ID'),
+      cdnUrl: Env.get('R2_PUBLIC_URL'),
+    },
   },
 })

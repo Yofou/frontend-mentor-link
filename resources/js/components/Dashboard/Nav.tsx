@@ -10,10 +10,11 @@ import type { HTMLStyledProps } from 'styled-system/jsx'
 export type NavProps = {
   isOnLink?: boolean
   dispatcher?: React.Dispatch<React.SetStateAction<boolean>>
+  onPreview?: () => void
 } & HTMLStyledProps<'nav'>
 
 export const Nav: React.FC<NavProps> = (props) => {
-  const { isOnLink, dispatcher, ...navProps } = props
+  const { isOnLink, onPreview, dispatcher, ...navProps } = props
   return (
     <styled.nav
       p="1.5rem 1rem"
@@ -36,7 +37,11 @@ export const Nav: React.FC<NavProps> = (props) => {
         </Tab>
       </styled.div>
 
-      <Button padding={{ base: '0.69rem 1rem', md: '0.6875rem 1.6875rem' }} type="secondary">
+      <Button
+        onClick={onPreview}
+        padding={{ base: '0.69rem 1rem', md: '0.6875rem 1.6875rem' }}
+        type="secondary"
+      >
         <styled.span display={{ base: 'inline', md: 'none' }}>
           <img src="/eye.svg" alt="" />
         </styled.span>

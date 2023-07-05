@@ -43,7 +43,8 @@
       "@japa/preset-adonis/build/adonis-typings",
       "@eidellev/inertia-adonisjs",
       "@adonisjs/lucid",
-      "@adonisjs/auth"
+      "@adonisjs/auth",
+      "adonis-drive-r2"
     ]
   }
 }

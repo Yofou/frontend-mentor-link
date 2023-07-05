@@ -34,6 +34,7 @@ export const Input: React.FC<InputProps> = (props) => {
           color="inherit"
           value={props.value}
           onChange={props.onChange}
+          disabled={props.disabled}
         />
 
         {props.error && (

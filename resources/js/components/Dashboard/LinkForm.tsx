@@ -6,6 +6,7 @@ import { Provider, ProvidersList } from '../../constants/providers'
 import { Input } from '../Input'
 import { LinkEdit } from '../svg/LinkEdit'
 import { Reorder, useDragControls } from 'framer-motion'
+import { Head } from '@inertiajs/inertia-react'
 
 export type LinkItemProps = {
   index: number
@@ -101,6 +102,7 @@ export const LinkForm: React.FC<LinkFormProps> = (props) => {
       flexDirection="column"
       onSubmit={privateOnSubmit}
     >
+      <Head title="Dev-link | Edit Links" />
       <styled.h2 textStyle="heading.m" mb="0.5rem" color="grey.default">
         Customize your links
       </styled.h2>

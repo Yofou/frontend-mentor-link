@@ -6,7 +6,6 @@ import Database from '@ioc:Adonis/Lucid/Database'
 const DashboardSchema = schema.create({
   first: schema.string([rules.alpha(), rules.maxLength(50)]),
   last: schema.string([rules.alpha(), rules.maxLength(50)]),
-  avatar: schema.file.optional(),
 })
 
 Route.put('/api/dashboard/profile', async ({ auth, request, response }) => {
@@ -21,11 +20,22 @@ Route.put('/api/dashboard/profile', async ({ auth, request, response }) => {
 
   auth.user!.first = payload.first
   auth.user!.last = payload.last
+  await auth.user?.save()
 
-  if (payload.avatar) {
-    await payload.avatar.moveToDisk('/')
-    auth.user!.avatar = `/uploads/${payload.avatar.fileName}`
-  }
+  return response.redirect().back()
+}).middleware('auth')
+
+const AvatarSchema = schema.create({
+  avatar: schema.file(),
+})
+
+Route.post('/api/dashboard/avatar', async ({ auth, request, response }) => {
+  const payload = await request.validate({
+    schema: AvatarSchema,
+  })
+
+  await payload.avatar.moveToDisk('./')
+  auth.user!.avatar = `https://pub-71cf1d8a0a7a41b7b79f85fc7f634d80.r2.dev/${payload.avatar.fileName}`
   await auth.user?.save()
 
   return response.redirect().back()
@@ -49,6 +59,7 @@ const LinksSchema = schema.create({
           'Gitlab',
           'Hashnode',
           'Stack Overflow',
+          'Facebook',
         ]),
         valueId: schema.enum([
           'github',
@@ -64,6 +75,7 @@ const LinksSchema = schema.create({
           'gitlab',
           'hashnode',
           'stackoverflow',
+          'facebook',
         ]),
       }),
       link: schema.string([rules.url()]),

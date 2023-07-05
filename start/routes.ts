@@ -19,6 +19,8 @@
 */
 
 import Route from '@ioc:Adonis/Core/Route'
+import User from 'App/Models/User'
+import { schema, rules } from '@ioc:Adonis/Core/Validator'
 import './api/auth'
 import './api/dashboard'
 
@@ -44,9 +46,11 @@ Route.get('/auth/register', async ({ inertia, auth, response }) => {
   return inertia.render('Register')
 })
 
-Route.get('/dashboard', async ({ inertia, auth }) => {
+Route.get('/dashboard', async ({ inertia, auth, request }) => {
+  const url = `${request.protocol()}://${request.host()}/u/${auth.user!.id}`
   await auth.user?.load('links')
   return inertia.render('Dashboard', {
+    url,
     user: {
       email: auth.user?.email ?? '',
       first: auth.user?.first ?? '',
@@ -65,3 +69,42 @@ Route.get('/dashboard', async ({ inertia, auth }) => {
     }),
   })
 }).middleware('auth')
+
+const ShareSchema = schema.create({
+  userId: schema.string([rules.exists({ table: 'users', column: 'id ' })]),
+})
+
+Route.get('/u/:user-id', async ({ inertia, request }) => {
+  const userId: string = request.param('user-id')
+  await request.validate({
+    schema: ShareSchema,
+    data: {
+      userId,
+    },
+  })
+
+  const url = request.completeUrl(false)
+  const user = await User.find(userId)
+  await user?.load('links')
+
+  return inertia.render('Share', {
+    isPreview: false,
+    url: url,
+    user: {
+      email: user?.email ?? '',
+      first: user?.first ?? '',
+      last: user?.last ?? '',
+      avatar: user?.avatar,
+    },
+    links: user?.links.map((item) => {
+      return {
+        id: item.id,
+        link: item.url,
+        provider: {
+          value: item.platform,
+          valueId: item.platformId,
+        },
+      }
+    }),
+  })
+})
