@@ -26,7 +26,10 @@ Route.put('/api/dashboard/profile', async ({ auth, request, response }) => {
 }).middleware('auth')
 
 const AvatarSchema = schema.create({
-  avatar: schema.file(),
+  avatar: schema.file({
+    size: '10mb',
+    extnames: ['jpg', 'png'],
+  }),
 })
 
 Route.post('/api/dashboard/avatar', async ({ auth, request, response }) => {
