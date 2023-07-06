@@ -114,6 +114,11 @@ const DropdownItemButton = styled('button', {
     color: 'grey.default',
     display: 'flex',
     gap: '.75rem',
+    _focus: {
+      outlineWidth: '1px',
+      outlineColor: 'purple.default',
+      outlineStyle: 'solid',
+    },
   },
   variants: {
     selected: {

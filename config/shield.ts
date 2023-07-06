@@ -45,7 +45,29 @@ export const csp: ShieldConfig['csp'] = {
   |
   */
   directives: {
-    fontSrc: ["'self'", 'https://fonts.googleapis.com'],
+    defaultSrc: [
+      "'self'",
+      "'self:*'",
+      'http://localhost:*',
+      'blob:',
+      'data:',
+      'ws://localhost:*',
+      'https://fonts.googleapis.com',
+      'https://fonts.gstatic.com',
+      'https://pub-71cf1d8a0a7a41b7b79f85fc7f634d80.r2.dev',
+      "'unsafe-inline'",
+    ],
+    scriptSrc: [
+      "'self'",
+      "'self:*'",
+      'http://localhost:*',
+      'blob:http://localhost:*',
+      'ws://localhost:*',
+      'https://fonts.googleapis.com',
+      'https://fonts.gstatic.com',
+      "'unsafe-inline'",
+    ],
+    fontSrc: ["'self'", 'https://fonts.googleapis.com', 'https://fonts.gstatic.com'],
   },
 
   /*
