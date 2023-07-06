@@ -15,6 +15,7 @@
     "Contracts": "contracts"
   },
   "preloads": [
+    "./start/platformDomain",
     "./start/routes",
     "./start/kernel",
     "./start/events",

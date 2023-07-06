@@ -14,6 +14,7 @@ import { Notify } from '../components/Dashboard/Notify'
 import { LinkType } from '../constants/LinkType'
 import Share from '../Pages/Share'
 import { Inertia } from '@inertiajs/inertia'
+import { Spinner } from '../components/svg/Spinner'
 
 export type PageFormType = {
   links: LinkType[]
@@ -46,6 +47,7 @@ const Page: React.FC<PageProps> = (props) => {
     errors: errorsLinks,
     clearErrors,
     wasSuccessful: wasSuccessfulLinks,
+    processing: isLinksSubmitting,
   } = useForm('links', {
     links: [],
   })
@@ -56,11 +58,14 @@ const Page: React.FC<PageProps> = (props) => {
     put: putProfile,
     errors: errorsProfile,
     wasSuccessful: wasSuccessfulProfile,
+    processing: isProfileSubmitting,
   } = useForm('profile', {
     first: '',
     last: '',
     email: '',
   })
+
+  const isSubmitting = isProfileSubmitting || isLinksSubmitting
 
   const { setData: setDataAvatar, data: dataAvatar } = useForm<{ avatar: string }>('avatar', {
     avatar: props.user.avatar ?? '',
@@ -265,7 +270,17 @@ const Page: React.FC<PageProps> = (props) => {
         display="flex"
         justifyContent="end"
       >
-        <Button w={{ base: '100%', md: 'auto' }} form="profile" onClick={onSubmit} type="primary">
+        <Button
+          display="flex"
+          alignItems="center"
+          gap=".5rem"
+          w={{ base: '100%', md: 'auto' }}
+          form="profile"
+          onClick={onSubmit}
+          type="primary"
+          disabled={isSubmitting}
+        >
+          {isSubmitting && <Spinner />}
           Save
         </Button>
       </styled.div>

@@ -46,7 +46,7 @@ Route.post('/api/dashboard/avatar', async ({ auth, request, response }) => {
 
 const LinksSchema = schema.create({
   links: schema.array().members(
-    schema.object().members({
+    schema.object([rules.platformDomain()]).members({
       provider: schema.object().members({
         value: schema.enum([
           'Github',
@@ -81,7 +81,12 @@ const LinksSchema = schema.create({
           'facebook',
         ]),
       }),
-      link: schema.string([rules.url(), rules.maxLength(255)]),
+      link: schema.string([
+        rules.url({
+          requireProtocol: true,
+        }),
+        rules.maxLength(255),
+      ]),
     })
   ),
 })

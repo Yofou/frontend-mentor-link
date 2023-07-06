@@ -44,7 +44,7 @@ export const Dropdown: React.FC<DropdownProps> = (props) => {
 
   return (
     <OpenProvider.Provider value={setIsOpen}>
-      <styled.div className={props.headCss} position="relative" width="100%">
+      <styled.div ref={ref} className={props.headCss} position="relative" width="100%">
         <styled.label display="flex" flexDirection="column" gap="0.5rem">
           {props.label && (
             <styled.p textStyle="body.s" color="grey.default">
@@ -71,10 +71,7 @@ export const Dropdown: React.FC<DropdownProps> = (props) => {
           <SelectedProvider.Provider value={[selected, setSelected]}>
             <styled.div
               zIndex="2"
-              ref={(elm) => {
-                focusTrapRef(elm)
-                ref.current = elm
-              }}
+              ref={focusTrapRef}
               position="absolute"
               bg="white"
               top="calc(100% + .75rem)"

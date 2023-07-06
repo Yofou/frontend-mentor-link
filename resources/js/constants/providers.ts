@@ -3,7 +3,7 @@ export type Provider = {
   value: string
 }
 
-export const ProvidersList: Provider[] = [
+export const ProvidersList = [
   {
     value: 'Github',
     valueId: 'github',
@@ -60,4 +60,4 @@ export const ProvidersList: Provider[] = [
     value: 'Stack Overflow',
     valueId: 'stackoverflow',
   },
-]
+] as const

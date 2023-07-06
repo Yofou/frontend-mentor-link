@@ -6,11 +6,19 @@ import { Input } from '../components/Input'
 import { Button } from '../components/Button'
 import { Link, useForm, usePage } from '@inertiajs/inertia-react'
 import { Head } from '@inertiajs/inertia-react'
+import { Spinner } from '../components/svg/Spinner'
 
 const Page: React.FC = () => {
   const props = usePage().props
   const flashMessage = props.errors
-  const { post, errors, setData, data, reset } = useForm({
+  const {
+    post,
+    errors,
+    setData,
+    data,
+    reset,
+    processing: isSubmitting,
+  } = useForm({
     email: '',
     password: '',
   })
@@ -64,7 +72,8 @@ const Page: React.FC = () => {
         </styled.p>
       )}
 
-      <Button w="100%" mb="1.5rem" type="primary">
+      <Button display="flex" alignItems="center" gap=".5rem" w="100%" mb="1.5rem" type="primary">
+        {isSubmitting && <Spinner />}
         Login
       </Button>
 
