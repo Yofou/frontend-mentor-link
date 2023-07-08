@@ -199,7 +199,7 @@ const Page: React.FC<PageProps> = (props) => {
   return (
     <styled.main
       display="grid"
-      w="100vw"
+      w="100%"
       minH="100vh"
       gridTemplateColumns={{ base: '1fr', md: '1fr 2fr' }}
       gridTemplateRows="max-content 1fr max-content"

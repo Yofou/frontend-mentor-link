@@ -3,7 +3,7 @@ import { Grid } from 'styled-system/jsx'
 
 export const BaseLayout: React.FC<React.PropsWithChildren<{}>> = (props) => {
   return (
-    <Grid width="100vw" justifyItems="start" bg="grey.light" minHeight="100vh">
+    <Grid width="100%" justifyItems="start" bg="grey.light" minHeight="100vh">
       {props.children}
     </Grid>
   )
