@@ -174,7 +174,9 @@ export const SidePreview: React.FC<SidePreviewProps> = (props) => {
               })}
 
             {props.links.length < 5 &&
-              Array.from({ length: 4 - props.links.length }).map((_, index) => (
+              Array.from({
+                length: 4 - props.links.filter((item) => item.provider.value.length > 0).length,
+              }).map((_, index) => (
                 <styled.div
                   minH="56px"
                   w="100%"

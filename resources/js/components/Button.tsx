@@ -8,6 +8,8 @@ export const Button = styled('button', {
     borderWidth: '1px',
     borderStyle: 'solid',
     borderColor: 'purple.default',
+    textAlign: 'center',
+    cursor: 'pointer',
   },
   variants: {
     type: {

@@ -72,7 +72,15 @@ const Page: React.FC = () => {
         </styled.p>
       )}
 
-      <Button display="flex" alignItems="center" gap=".5rem" w="100%" mb="1.5rem" type="primary">
+      <Button
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        gap=".5rem"
+        w="100%"
+        mb="1.5rem"
+        type="primary"
+      >
         {isSubmitting && <Spinner />}
         Login
       </Button>

@@ -74,11 +74,14 @@ const Page: React.FC<PageProps> = (props) => {
         mt={{ base: '3.75rem', md: '6.3rem' }}
         justifySelf="center"
         maxW="349px"
+        minH="35rem"
         p="3rem 3.5rem"
         bg="white"
         rounded="1.5rem"
         zIndex="1"
         gridRow="2 / 3"
+        alignSelf="start"
+        boxShadow="0px 0px 32px 0px rgba(0, 0, 0, 0.10);"
       >
         <styled.img
           w="6.5rem"

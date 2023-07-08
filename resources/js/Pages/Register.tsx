@@ -90,6 +90,7 @@ const Page: React.FC = () => {
         disabled={isSubmitting}
         mb="1.5rem"
         type="primary"
+        justifyContent="center"
       >
         {isSubmitting && <Spinner />}
         Create new account

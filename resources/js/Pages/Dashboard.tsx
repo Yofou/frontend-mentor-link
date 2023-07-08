@@ -205,6 +205,7 @@ const Page: React.FC<PageProps> = (props) => {
       gridTemplateRows="max-content 1fr max-content"
       gap={{ base: '1rem', md: '1.5rem' }}
       p="1.5rem"
+      pb="0"
       bg="grey.light"
     >
       <Nav gridColumn="1 / -1" isOnLink={isOnLink} dispatcher={setIsOnLink} onPreview={onPreview} />
@@ -247,14 +248,26 @@ const Page: React.FC<PageProps> = (props) => {
       )}
 
       {isSuccessful && (
-        <Notify pos="fixed" bottom="2.5rem" left="50%" transform="translateX(-50%)">
+        <Notify
+          pos="fixed"
+          top={{ base: '2.5rem', md: 'unset' }}
+          bottom={{ md: '2.5rem' }}
+          left="50%"
+          transform="translateX(-50%)"
+        >
           <img src="/saved.svg" alt="" />
           Your changes have been successfully saved!
         </Notify>
       )}
 
       {hasUploadFailed && (
-        <Notify pos="fixed" bottom="2.5rem" left="50%" transform="translateX(-50%)">
+        <Notify
+          pos="fixed"
+          top={{ base: '2.5rem', md: 'unset' }}
+          bottom={{ md: '2.5rem' }}
+          left="50%"
+          transform="translateX(-50%)"
+        >
           <img src="/warning.svg" alt="" />
           Upload failed, please refresh and try again!
         </Notify>
@@ -273,6 +286,7 @@ const Page: React.FC<PageProps> = (props) => {
         <Button
           display="flex"
           alignItems="center"
+          justifyContent="center"
           gap=".5rem"
           w={{ base: '100%', md: 'auto' }}
           form="profile"

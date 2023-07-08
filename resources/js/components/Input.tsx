@@ -21,7 +21,7 @@ export const Input: React.FC<InputProps> = (props) => {
           {props.label}
         </styled.p>
       )}
-      <InputContainer px="1rem" gap="0.75rem" error={!!props.error}>
+      <InputContainer bg="white" px="1rem" gap="0.75rem" error={!!props.error}>
         {props.icon && typeof props.icon === 'string' && <img src={props.icon} alt="" />}
         {typeof props?.icon !== 'string' && props.icon}
 

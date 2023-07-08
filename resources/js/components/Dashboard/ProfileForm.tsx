@@ -49,18 +49,18 @@ export const ProfileForm: React.FC<ProfileFormProps> = (props) => {
         mb="1.5rem"
         display="flex"
         justifyContent="space-between"
-        alignItems={{ base: 'start', md: 'center' }}
-        flexDirection={{ base: 'column', md: 'row' }}
+        alignItems={{ base: 'start', lg: 'center' }}
+        flexDirection={{ base: 'column', lg: 'row' }}
       >
-        <styled.p textStyle="body.m" mb={{ base: '1rem', md: '0' }} color="grey.normal">
+        <styled.p textStyle="body.m" mb={{ base: '1rem', lg: '0' }} color="grey.normal">
           Profile picture
         </styled.p>
 
         <styled.div
           display="flex"
-          flexDirection={{ base: 'column', md: 'row' }}
+          flexDirection={{ base: 'column', lg: 'row' }}
           gap="1.5rem"
-          alignItems={{ base: 'start', md: 'center' }}
+          alignItems={{ base: 'start', lg: 'center' }}
         >
           <ImageUpload
             name="avatar"

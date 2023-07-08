@@ -49,7 +49,7 @@ export const LinkItem: React.FC<LinkItemProps> = (props) => {
           </styled.h3>
 
           <styled.button color="grey.normal" textStyle="body.m" onClick={props?.onRemove}>
-            Removed
+            Remove
           </styled.button>
         </styled.div>
 
@@ -107,7 +107,7 @@ export const LinkForm: React.FC<LinkFormProps> = (props) => {
       <styled.h2 textStyle="heading.m" mb="0.5rem" color="grey.default">
         Customize your links
       </styled.h2>
-      <styled.p mb="2.5rem" color="grey.normal">
+      <styled.p mb="2.5rem" color="grey.normal" textStyle="body.m">
         Add/edit/remove links below and then share all your profiles with the world!
       </styled.p>
 
@@ -115,7 +115,9 @@ export const LinkForm: React.FC<LinkFormProps> = (props) => {
         + Add new link
       </Button>
 
-      {props.children}
+      <styled.div display="flex" flexDirection="column" gap="1.5rem">
+        {props.children}
+      </styled.div>
     </styled.form>
   )
 }

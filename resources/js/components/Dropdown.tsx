@@ -51,7 +51,7 @@ export const Dropdown: React.FC<DropdownProps> = (props) => {
               {props.label}
             </styled.p>
           )}
-          <InputContainer px="1rem" active={isOpen} width="100%">
+          <InputContainer bg="white" px="1rem" active={isOpen} width="100%">
             {selected.valueId && <styled.img src={`/platform/${selected.valueId}.svg`} alt="" />}
             <styled.button
               w="100%"
