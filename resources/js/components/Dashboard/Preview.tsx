@@ -79,6 +79,7 @@ export const SidePreview: React.FC<SidePreviewProps> = (props) => {
       bg="white"
       display={{ base: 'none', md: 'grid' }}
       justifyItems="center"
+      rounded=".75rem"
     >
       <svg
         className={css({

@@ -101,6 +101,7 @@ export const LinkForm: React.FC<LinkFormProps> = (props) => {
       display="flex"
       flexDirection="column"
       onSubmit={privateOnSubmit}
+      rounded=".75rem"
     >
       <Head title="Dev-link | Edit Links" />
       <styled.h2 textStyle="heading.m" mb="0.5rem" color="grey.default">

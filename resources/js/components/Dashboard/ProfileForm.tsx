@@ -32,6 +32,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = (props) => {
       onSubmit={(e) => e.preventDefault()}
       flexDirection="column"
       id="profile"
+      rounded=".75rem"
     >
       <Head title="Dev-link | Edit Profile" />
       <styled.h2 mb=".5rem" textStyle="heading.m" color="grey.default">
