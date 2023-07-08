@@ -48,27 +48,26 @@ const Page: React.FC<PageProps> = (props) => {
         hideBelow="sm"
       />
 
-      <styled.nav p={{ base: '0', md: '1.5rem' }} w="100%" zIndex="1">
-        <styled.div
-          w="100%"
-          bg="white"
-          rounded="0.75rem"
-          display="flex"
-          justifyContent="space-between"
-          p="1rem 1.5rem"
-        >
-          {props.isPreview ? (
+      {props.isPreview && (
+        <styled.nav p={{ base: '0', md: '1.5rem' }} w="100%" zIndex="1">
+          <styled.div
+            w="100%"
+            bg="white"
+            rounded="0.75rem"
+            display="flex"
+            justifyContent="space-between"
+            p="1rem 1.5rem"
+          >
             <Button onClick={props.onBack} type="secondary">
               Back to Editor
             </Button>
-          ) : (
-            <div></div>
-          )}
-          <Button type="primary" onClick={onCopyUrl}>
-            Share Link
-          </Button>
-        </styled.div>
-      </styled.nav>
+
+            <Button type="primary" onClick={onCopyUrl}>
+              Share Link
+            </Button>
+          </styled.div>
+        </styled.nav>
+      )}
 
       <styled.section
         w="100%"
@@ -79,6 +78,7 @@ const Page: React.FC<PageProps> = (props) => {
         bg="white"
         rounded="1.5rem"
         zIndex="1"
+        gridRow="2 / 3"
       >
         <styled.img
           w="6.5rem"
