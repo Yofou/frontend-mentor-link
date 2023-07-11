@@ -15,7 +15,7 @@ type PlatformKeys = (typeof ProvidersList)[number]['valueId']
 const PlatformDomainRegex: Record<PlatformKeys, RegExp> = {
   'twitch': /^(https?:\/\/)?(www\.)?twitch\.tv\/[A-Za-z0-9_]{4,25}$/,
   'twitter': /(https:\/\/twitter.com\/(?![a-zA-Z0-9_]+\/)([a-zA-Z0-9_]+))/,
-  'youtube': /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/(channel\/)?([a-zA-Z0-9_-])*.$/,
+  'youtube': /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/@([a-zA-Z0-9_-])*.$/,
   'stackoverflow': /(https?:\/\/)?(www\.)?stackoverflow\.com\/users\/\d+\/[\w-]+/,
   'dev-to': /^(https:\/\/dev.to\/[a-zA-Z0-9_-]+)$/,
   'github': /^https?:\/\/github\.com\/[A-Za-z0-9_-]+$/,
